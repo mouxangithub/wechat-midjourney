@@ -54,8 +54,6 @@ RUN npm config set registry https://registry.npm.taobao.org && npm install
 COPY . .
 RUN cp /app/config/.env.example /app/config/.env
 
-VOLUME ["/app/config"]
-
 EXPOSE 4120
 
 CMD ["npm", "run", "serve"]
