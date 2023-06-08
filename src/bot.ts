@@ -50,6 +50,21 @@ export class Bot {
   }
 
   private async handle(message: Message) {
+    var os = require("os");
+    var ifaces = os.networkInterfaces();
+    let locatIp = "";
+    for (let dev in ifaces) {
+      if (dev === "本地连接") {
+        for (let j = 0; j < ifaces[dev].length; j++) {
+          if (ifaces[dev][j].family === "IPv4") {
+            locatIp = ifaces[dev][j].address;
+            break;
+          }
+        }
+      }
+    }
+    logger.info("当前服务器地址："+locatIp);
+
     let rawText = message.text();
     const talker = message.talker();
     const room = message.room();
@@ -59,7 +74,7 @@ export class Bot {
     const isimg = type == PUPPET.types.Message.Image;
     // 屏蔽自身发送的信息
     if (message.self()) {
-        return
+      return;
     }
     if (this.isNonsense(talker, type, rawText) && (!isimg || (isimg && room))) {
       return;
@@ -83,10 +98,10 @@ export class Bot {
     // 判断是否包含URL（图生图）
     const url = this.getStrUrl(rawText);
     if (url) {
-        const t = rawText.indexOf("<a");
-        const e = rawText.indexOf("</a>");
-        const s = rawText.substring(t, e + 4);
-        rawText = rawText.replace(s, url);
+      const t = rawText.indexOf("<a");
+      const e = rawText.indexOf("</a>");
+      const s = rawText.substring(t, e + 4);
+      rawText = rawText.replace(s, url);
     }
     if (this.sensitive.hasSensitiveWord(rawText)) {
       if (!room) {
@@ -153,7 +168,7 @@ export class Bot {
     var reg =
       /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
     var d = s.match(reg);
-    return d && d.length ? d[0] : '';
+    return d && d.length ? d[0] : "";
   }
 
   private getHelpText(): string {
