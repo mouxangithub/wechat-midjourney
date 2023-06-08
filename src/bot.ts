@@ -57,6 +57,10 @@ export class Bot {
     const talkerName = talker.name();
     const topic = room ? await room.topic() : null;
     const isimg = type == PUPPET.types.Message.Image;
+    // 屏蔽自身发送的信息
+    if (message.self()) {
+        return
+    }
     if (this.isNonsense(talker, type, rawText) && (!isimg || (isimg && room))) {
       return;
     }
