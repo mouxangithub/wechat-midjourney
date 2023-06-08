@@ -51,6 +51,6 @@ COPY package*.json ./
 
 RUN npm config set registry https://registry.npm.taobao.org && npm install
 
-EXPOSE 80
+EXPOSE 4120
 
 CMD ["npm", "run", "serve"]
