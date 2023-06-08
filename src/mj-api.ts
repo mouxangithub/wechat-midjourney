@@ -20,7 +20,7 @@ export class SubmitResult {
 };
 
 export class MJApi {
-  listenerPort: number = 4120;
+  listenerPort: number = 80;
   wechaty: WechatyInterface;
   axiosInstance: AxiosInstance;
 
